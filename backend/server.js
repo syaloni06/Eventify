@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors"; 
 import { userRoutes } from "./Routes/userRoutes.js";
-// import { channelRoutes } from "./Routes/channelRoutes.js";
-// import { videoRoutes } from "./Routes/videoRoutes.js";
+import { eventRoutes } from "./Routes/eventRoutes.js";
+import dotenv from "dotenv";
 
 const app = new express();
 
@@ -24,12 +24,12 @@ app.listen(5100, () => {
 });
 
 userRoutes(app);
+eventRoutes(app);
 
-// channelRoutes(app);
 
-// videoRoutes(app);
+dotenv.config();
 
-mongoose.connect("mongodb://localhost:27017/eventDB");
+mongoose.connect(process.env.MONGO_URI);
 
 const db = mongoose.connection;
 db.on("open", () => {
