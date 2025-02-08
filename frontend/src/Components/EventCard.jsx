@@ -25,8 +25,8 @@ const EventCard = ({ event }) => {
         <h2 className="text-2xl font-semibold text-gray-900 truncate">
           {event.eventName}
         </h2>
-        <p className="text-gray-500 text-base font-bold mt-1 flex justify-center gap-1">
-          <FaCalendarAlt className="self-center text-lg" />
+        <p className="text-gray-600 text-base font-bold mt-1 flex justify-center gap-1">
+          <FaCalendarAlt className="self-center text-lg text-blue-600" />
           {new Date(event.eventDate).toLocaleDateString("en-GB")}
         </p>
       </div>
@@ -35,7 +35,7 @@ const EventCard = ({ event }) => {
       <div className="mt-auto flex justify-center pb-4">
         <button
           onClick={handleViewDetails}
-          className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg"
+          className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg"
         >
           View Event
         </button>

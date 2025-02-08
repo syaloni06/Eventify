@@ -27,7 +27,7 @@ const appRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/eventdetails",
+        path: "/eventdetails/:id",
         element: (
           <Suspense fallback={<div>Loading Counter...</div>}>
             <EventDetails />
