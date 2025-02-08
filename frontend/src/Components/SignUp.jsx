@@ -8,8 +8,6 @@ const SignUp = () => {
     username: "",
     email: "",
     password: "",
-    avatar: "",
-    channelId: "",
   });
   // State to hold validation error messages
   const [errors, setErrors] = useState({});
@@ -42,12 +40,6 @@ const SignUp = () => {
             ? "Password must be at least 6 characters long."
             : ""; // Ensure password is at least 6 characters long
         break;
-      case "avatar":
-        fieldErrors.avatar =
-          value.startsWith("http") && value.includes(".")
-            ? "" // Validate URL format
-            : "Invalid image URL.";
-        break;
     }
 
     setErrors(fieldErrors);
@@ -61,8 +53,6 @@ const SignUp = () => {
       fieldErrors.email = "Invalid email address."; // Check for valid email
     if (formData.password.length < 6)
       fieldErrors.password = "Password must be at least 6 characters long."; // Password length check
-    if (!formData.avatar.startsWith("http") || !formData.avatar.includes("."))
-      fieldErrors.avatar = "Invalid image URL."; // Check if avatar URL is valid
 
     setErrors(fieldErrors);
     return Object.keys(fieldErrors).length === 0; // Return true if no errors
@@ -175,31 +165,6 @@ const SignUp = () => {
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-            )}
-          </div>
-          {/* Avatar input field */}
-          <div>
-            <label
-              htmlFor="avatar"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Avatar (Image URL)
-            </label>
-            <input
-              type="text"
-              id="avatar"
-              name="avatar"
-              value={formData.avatar}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                errors.avatar
-                  ? "border-red-500 focus:ring-red-400"
-                  : "focus:ring-blue-400 focus:border-blue-400"
-              }`}
-              placeholder="Enter the URL of your avatar image"
-            />
-            {errors.avatar && (
-              <p className="text-red-500 text-sm mt-1">{errors.avatar}</p>
             )}
           </div>
           {/* Submit button */}

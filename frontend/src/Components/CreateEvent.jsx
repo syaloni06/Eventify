@@ -1,12 +1,12 @@
 import { useState } from "react";
+import axios from "axios";
 
 const CreateEvent = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    email: "",
-    phone: "",
-    date: "", // New field for date selection
+    eventName: "",
+    date: "",
+    location: "",
+    description: "", 
   });
 
   const handleChange = (e) => {

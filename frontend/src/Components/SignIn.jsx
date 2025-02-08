@@ -1,12 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../utils/userSlice";
 
 
 const SignIn = () => {
   const [formData, setFormData] = useState({ email: "", password: "" }); // State to hold form data
   const [errors, setErrors] = useState({}); // State to hold validation errors
   const navigate = useNavigate(); // Hook to navigate to different pages
+  const dispatch = useDispatch(); // Hook to dispatch actions to Redux store
 
   // Handles input field changes and performs real-time validation
   const handleChange = (e) => {
@@ -64,18 +67,12 @@ const SignIn = () => {
 
       if (response.status === 200) {
         setErrors({}); // Clear any previous errors
-        // // Extract token and user data from the response
-        // const { token, user } = response.data;
+        // Extract token and user data from the response
+        const { token, user } = response.data;
 
-        // // If user has a channelId, fetch channel data and set the channel handle
-        // if (user.channelId !== undefined) {
-        //   const channelResponse = await axios.get(
-        //     `http://localhost:5100/channels/${user.channelId}`, // Fetch channel details
-        //     {
-        //       headers: { Authorization: token }, // Include token in request header
-        //     }
-        //   );
-        // }
+        // Save user info to Redux store
+        dispatch(setUserInfo({ token, ...user }));
+
 
         // Navigate to the homepage/dashboard
         navigate("/");
