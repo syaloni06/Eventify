@@ -2,15 +2,18 @@ import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CreateEvent = () => {
   // State to hold form input values
   const user = useSelector((state) => state.user.data);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     eventName: "",
     date: "",
     location: "",
     description: "",
+    eventImage: "",
   });
 
   // State to hold validation error messages
@@ -29,16 +32,24 @@ const CreateEvent = () => {
 
     switch (name) {
       case "eventName":
-        fieldErrors.eventName = value.trim() === "" ? "Event name is required." : "";
+        fieldErrors.eventName =
+          value.trim() === "" ? "Event name is required." : "";
         break;
       case "date":
         fieldErrors.date = value ? "" : "Event date is required.";
         break;
       case "location":
-        fieldErrors.location = value.trim() === "" ? "Event location is required." : "";
+        fieldErrors.location =
+          value.trim() === "" ? "Event location is required." : "";
         break;
       case "description":
-        fieldErrors.description = value.trim() === "" ? "Event description is required." : "";
+        fieldErrors.description =
+          value.trim() === "" ? "Event description is required." : "";
+        break;
+      case "eventImage":
+        fieldErrors.eventImage = value ? "" : "Event image URL is required.";
+        break;
+      default:
         break;
     }
 
@@ -50,8 +61,12 @@ const CreateEvent = () => {
     const fieldErrors = {};
     if (!formData.eventName) fieldErrors.eventName = "Event name is required.";
     if (!formData.date) fieldErrors.date = "Event date is required.";
-    if (!formData.location) fieldErrors.location = "Event location is required.";
-    if (!formData.description) fieldErrors.description = "Event description is required.";
+    if (!formData.location)
+      fieldErrors.location = "Event location is required.";
+    if (!formData.description)
+      fieldErrors.description = "Event description is required.";
+    if (!formData.eventImage)
+      fieldErrors.eventImage = "Event eventImage is required.";
 
     setErrors(fieldErrors);
     return Object.keys(fieldErrors).length === 0;
@@ -75,22 +90,24 @@ const CreateEvent = () => {
     });
 
     try {
-      
       const event = {
         eventName: formData.eventName,
         eventDate: formData.date,
         eventLocation: formData.location,
         eventDescription: formData.description,
+        eventImage: formData.eventImage,
         createdBy: {
           creatorId: user.userId,
           creatorName: user.username,
-          creatorEmail: user.email
+          creatorEmail: user.email,
         },
-        attendees: [ {
-          userId: user.userId,
-          userName: user.username,
-          userEmail: user.email
-        }]
+        attendees: [
+          {
+            userId: user.userId,
+            userName: user.username,
+            userEmail: user.email,
+          },
+        ],
       };
       const token = user?.token; // Get user token
       const headers = {
@@ -98,11 +115,9 @@ const CreateEvent = () => {
       };
 
       // Send POST request to create a new event
-      const response = await axios.post(
-        "http://localhost:5100/events",
-        event,
-        { headers }
-      );
+      const response = await axios.post("http://localhost:5100/events", event, {
+        headers,
+      });
 
       if (response.status === 201) {
         setErrors({}); // Clear errors on success
@@ -114,7 +129,14 @@ const CreateEvent = () => {
           text: "Event created successfully!",
         });
 
-        setFormData({ eventName: "", date: "", location: "", description: "" });
+        setFormData({
+          eventName: "",
+          date: "",
+          location: "",
+          description: "",
+          eventImage: "",
+        });
+        navigate("/")
       } else {
         setErrors({ form: "Unexpected response from the server." });
       }
@@ -129,69 +151,116 @@ const CreateEvent = () => {
     }
   };
 
-
   return (
-    <div className="flex items-center my-20 justify-center">
-      <div className="w-full max-w-md bg-gray-100 p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Create an Event</h2>
-        {errors.form && <p className="text-red-500 text-sm text-center mb-4">{errors.form}</p>}
+    <div className="flex items-center my-20 justify-center w-full">
+      <div className="w-1/2 bg-gray-100 p-8 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Create an Event
+        </h2>
+        {errors.form && (
+          <p className="text-red-500 text-sm text-center mb-4">{errors.form}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Event Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Event Name
+            </label>
             <input
               type="text"
               name="eventName"
               value={formData.eventName}
               onChange={handleChange}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                errors.eventName ? "border-red-500 focus:ring-red-400" : "focus:ring-blue-400 focus:border-blue-400"
+                errors.eventName
+                  ? "border-red-500 focus:ring-red-400"
+                  : "focus:ring-blue-400 focus:border-blue-400"
               }`}
               placeholder="Enter event name"
             />
-            {errors.eventName && <p className="text-red-500 text-sm mt-1">{errors.eventName}</p>}
+            {errors.eventName && (
+              <p className="text-red-500 text-sm mt-1">{errors.eventName}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Event Date</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Event Date
+            </label>
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={handleChange}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                errors.date ? "border-red-500 focus:ring-red-400" : "focus:ring-blue-400 focus:border-blue-400"
+                errors.date
+                  ? "border-red-500 focus:ring-red-400"
+                  : "focus:ring-blue-400 focus:border-blue-400"
               }`}
             />
-            {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date}</p>}
+            {errors.date && (
+              <p className="text-red-500 text-sm mt-1">{errors.date}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Event Location</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Event Location
+            </label>
             <input
               type="text"
               name="location"
               value={formData.location}
               onChange={handleChange}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                errors.location ? "border-red-500 focus:ring-red-400" : "focus:ring-blue-400 focus:border-blue-400"
+                errors.location
+                  ? "border-red-500 focus:ring-red-400"
+                  : "focus:ring-blue-400 focus:border-blue-400"
               }`}
               placeholder="Enter event location"
             />
-            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+            {errors.location && (
+              <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Event Description</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Event Description
+            </label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                errors.description ? "border-red-500 focus:ring-red-400" : "focus:ring-blue-400 focus:border-blue-400"
+                errors.description
+                  ? "border-red-500 focus:ring-red-400"
+                  : "focus:ring-blue-400 focus:border-blue-400"
               }`}
               placeholder="Enter event description"
             />
-            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Event Image
+            </label>
+            <input
+              type="text"
+              name="eventImage"
+              value={formData.eventImage}
+              onChange={handleChange}
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                errors.location
+                  ? "border-red-500 focus:ring-red-400"
+                  : "focus:ring-blue-400 focus:border-blue-400"
+              }`}
+              placeholder="Enter event image"
+            />
+            {errors.eventImage && (
+              <p className="text-red-500 text-sm mt-1">{errors.eventImage}</p>
+            )}
           </div>
           <button
             type="submit"
