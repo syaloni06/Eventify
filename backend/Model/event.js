@@ -6,7 +6,7 @@ const attendeesSchema = new mongoose.Schema({
     },
     userName: {
         type: String,
-        reqired: true
+        reqired: true 
     },
     userEmail: {
         type: String,
@@ -14,6 +14,23 @@ const attendeesSchema = new mongoose.Schema({
         unique: true
     }
 });
+
+const creatorSchema = new mongoose.Schema({
+  creatorId: {
+      type: String,
+      unique: true
+  },
+  creatorName: {
+      type: String,
+      reqired: true 
+  },
+  creatorEmail: {
+      type: String,
+      required: true,
+      unique: true
+  }
+});
+
 const eventSchema = new mongoose.Schema({
 
   eventName: {
@@ -21,20 +38,19 @@ const eventSchema = new mongoose.Schema({
     required: true, 
     unique: true 
   },
-
+  eventDate: {
+    type: Date,
+    required: true
+  },
   eventLocation: {
     type: String,
     required: true 
   },
-
   eventDescription: {
     type: String,
     required: true
   },
-  createdBy: {
-    type: String,
-    required: true
-  },
+  createdBy: creatorSchema,
   attendees: [attendeesSchema]
 });
 
