@@ -52,6 +52,7 @@ const eventSchema = new mongoose.Schema({
   },
   eventImage: {
     type: String,
+    required: true
   },
   createdBy: creatorSchema,
   attendees: [attendeesSchema]
