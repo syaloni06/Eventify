@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const attendeesSchema = new mongoose.Schema({
     userId: {
         type: String,
-        unique: true
+        required: true
     },
     userName: {
         type: String,
@@ -18,7 +18,7 @@ const attendeesSchema = new mongoose.Schema({
 const creatorSchema = new mongoose.Schema({
   creatorId: {
       type: String,
-      unique: true
+      required: true
   },
   creatorName: {
       type: String,
