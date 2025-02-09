@@ -13,7 +13,13 @@ const server = app.listen(5100, () => {
   console.log("Server is running on port 5100");
 });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://gentle-hummingbird-2baf8f.netlify.app", // Allow frontend domain
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    credentials: true, // Allow cookies & auth headers
+  })
+);
 app.use(express.json());
 
 // MongoDB Connection
