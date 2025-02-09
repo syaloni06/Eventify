@@ -1,8 +1,12 @@
 /* eslint-disable react/prop-types */
-import { CiSearch } from "react-icons/ci";
+import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-const SearchEvent = ({ setEventList, searchText, setSearchText, fullEventList }) => {
-  
+const SearchEvent = ({
+  setEventList,
+  searchText,
+  setSearchText,
+  fullEventList,
+}) => {
   const navigate = useNavigate();
 
   const searchEvents = () => {
@@ -34,22 +38,24 @@ const SearchEvent = ({ setEventList, searchText, setSearchText, fullEventList })
 
   return (
     <>
-      <div className="flex items-center rounded-full shadow-sm lg:w-full self-center">
-        <input
-          className=" md:flex-grow rounded-l-full py-2  px-3 md:px-6 text-gray-700 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 h-8 lg:h-10"
-          type="text"
-          name="task"
-          value={searchText}
-          id="task"
-          placeholder="Search"
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <button
-          className="bg-gray-50 md:p-3 rounded-r-full h-8 lg:h-10  w-8 md:w-18 border border-gray-300 flex items-center justify-center hover:bg-gray-200"
-          onClick={searchEvents}
-        >
-          <CiSearch className="text-black text-base lg:text-2xl" />
-        </button>
+      <div className="flex mt-8 justify-center">
+        <div className="flex items-center mx-28 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out lg:w-2/3 self-center">
+          <input
+            className="w-full md:flex-grow rounded-l-full py-2 px-4 md:px-6 text-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 h-10 lg:h-12 transition-all duration-200 ease-in-out"
+            type="text"
+            name="task"
+            value={searchText}
+            id="task"
+            placeholder="Search..."
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button
+            className="bg-gradient-to-r from-yellow-400 to-orange-500 md:p-3 rounded-r-full h-10 lg:h-12 w-10 md:w-24 border border-yellow-400 flex items-center justify-center hover:bg-yellow-400 transition-all duration-200 ease-in-out"
+            onClick={searchEvents}
+          >
+            <FaSearch className="text-white text-lg lg:text-2xl transition-transform duration-200 ease-in-out transform hover:scale-110" />
+          </button>
+        </div>
       </div>
     </>
   );

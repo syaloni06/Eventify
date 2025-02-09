@@ -41,21 +41,21 @@ const Header = () => {
   return (
     <>
       <header className="bg-white fixed top-0 w-full shadow-md z-50 py-3 px-6 flex justify-between items-center">
-        <Link className="text-3xl font-bold flex italic w-1/3">
-          <SiEventbrite className="text-amber-400 text-4xl" />
+        <Link className="text-2xl md:text-3xl font-bold flex italic w-1/3">
+          <SiEventbrite className="text-amber-400 text-2xl md:text-4xl self-center" />
           ventify
         </Link>
         <nav className="flex items-center space-x-6 justify-end w-1/2 relative">
           {/* Notification Bell */}
           <div className="relative">
             <BsFillBellFill
-              className="text-2xl cursor-pointer"
+              className="text-xl md:text-2xl cursor-pointer"
               onClick={() => {
                 setShowNotifications(!showNotifications);
                 setFlag(false);
               }}
             />
-            {(notifications.length > 0 && flag) && (
+            {notifications.length > 0 && flag && (
               <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center absolute -top-2 -right-2">
                 {notifications.length}
               </span>
@@ -82,14 +82,18 @@ const Header = () => {
 
           {/* Create Event Button */}
           <Link to="/createevent" className="font-bold text-lg flex gap-1">
-            <FaCalendarPlus className="text-2xl self-center" />
-            Event
+            <FaCalendarPlus className="text-xl md:text-2xl self-center" />
+            <span className="hidden md:flex">Event</span>
           </Link>
 
           {/* User Authentication */}
           {user === null ? (
-            <Link to="/signin" className="flex items-center space-x-2 font-bold text-lg gap-1">
-              <IoPersonCircleSharp className="text-3xl self-center" /> SignIn
+            <Link
+              to="/signin"
+              className="flex items-center space-x-2 font-bold text-lg gap-1"
+            >
+              <IoPersonCircleSharp className="text-xl md:text-3xl self-center" />{" "}
+              <span className="hidden md:flex">SignIn</span>
             </Link>
           ) : (
             <button
@@ -99,8 +103,8 @@ const Header = () => {
                 navigate("/");
               }}
             >
-              <RiLoginBoxFill className="self-center text-3xl" />
-              Sign out
+              <RiLoginBoxFill className="self-center text-2xl md:text-3xl" />
+              <span className="hidden md:flex">Sign out</span>
             </button>
           )}
         </nav>

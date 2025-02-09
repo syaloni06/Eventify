@@ -56,10 +56,10 @@ const EventList = () => {
               </span>
               , organize, and manage unforgettable events with ease.
             </h1>
-            <p className="mt-3 text-lg text-gray-600">
-              From planning to execution, elevate every experience with the
-              ultimate event management tool.
-            </p>
+            <div className="mt-3 text-lg text-gray-600 italic">
+            Effortless event planning, unforgettable experiences!{" "}
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-500 font-bold bg-clip-text text-transparent">Ready to find your next great event?</span>
+            </div>
           </div>
           <div>
             <SearchEvent 
@@ -71,7 +71,7 @@ const EventList = () => {
           </div>
         </>
       )}
-      <div className="flex flex-wrap justify-center my-20">
+      <div className="flex flex-wrap justify-center my-10">
         {eventList.map((event) => (
           <EventCard event={event} key={event.id} />
         ))}
