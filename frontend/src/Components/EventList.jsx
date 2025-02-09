@@ -49,14 +49,14 @@ const EventList = () => {
       {eventList.length > 0 && (
         <>
           <div className="text-center">
-            <h1 className="mt-32 text-6xl font-bold text-gray-900">
+            <h1 className=" mt-24 lg:mt-32 text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900">
               Seamlessly{" "}
               <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                 create
               </span>
               , organize, and manage unforgettable events with ease.
             </h1>
-            <div className="mt-3 text-lg text-gray-600 italic">
+            <div className="mt-3 mx-1 md:mx-6 text-sm md:text-lg text-gray-600 italic">
             Effortless event planning, unforgettable experiences!{" "}
               <span className="bg-gradient-to-r from-yellow-400 to-orange-500 font-bold bg-clip-text text-transparent">Ready to find your next great event?</span>
             </div>
@@ -71,7 +71,7 @@ const EventList = () => {
           </div>
         </>
       )}
-      <div className="flex flex-wrap justify-center my-10">
+      <div className="flex flex-wrap justify-center mt-5 mb-10 md:my-10">
         {eventList.map((event) => (
           <EventCard event={event} key={event.id} />
         ))}
