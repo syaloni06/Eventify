@@ -17,7 +17,7 @@ const EventDetails = () => {
   const [open, setOpen] = useState(false);
   const [updatedEvent, setUpdatedEvent] = useState({});
   const [flag, setFlag] = useState(true);
-
+  const [closeDialog, setCloseDialog] = useState(true);
   useEffect(() => {
     const fetchEventDetails = async () => {
       setLoading(true);
@@ -242,7 +242,10 @@ const EventDetails = () => {
                 <>
                   <div className="md:flex gap-5">
                     <button
-                      onClick={() => setOpen(true)}
+                      onClick={() => {
+                        setOpen(true);
+                        setCloseDialog(true);
+                      }}
                       className="mt-4 w-full md:w-1/3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
                     >
                       Update
@@ -261,10 +264,16 @@ const EventDetails = () => {
         </div>
       </div>
       {/* Update Modal */}
-      {open && (
+      {(open && closeDialog) && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="p-6 bg-white rounded-lg shadow-lg w-1/3">
+          <div className="p-6 bg-white rounded-lg shadow-lg w-4/5 md:w-2/3 lg:w-1/3 relative">
             <h2 className="text-xl font-bold">Update Event</h2>
+            <button
+              className="absolute top-4 right-4 text-gray-500 text-lg hover:text-gray-800"
+              onClick={() => setCloseDialog(false)}
+            >
+              &times;
+            </button>
             <input
               className="w-full p-2 border rounded mt-2"
               placeholder="Event Name"

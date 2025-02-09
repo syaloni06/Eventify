@@ -153,7 +153,7 @@ const CreateEvent = () => {
 
   return (
     <div className="flex items-center my-20 justify-center w-full">
-      <div className="w-1/2 bg-gray-100 p-8 rounded-lg shadow-lg">
+      <div className="mx-6 w-full md:w-2/3 lg:w-1/2 bg-gray-100 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Create an Event
         </h2>
