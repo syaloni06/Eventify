@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaMapLocationDot } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 const EventDetails = () => {
   const { id } = useParams(); // Get event ID from URL parameters
@@ -44,52 +45,129 @@ const EventDetails = () => {
   }, [id, user, navigate, flag]);
 
   const handleJoin = async () => {
+    Swal.fire({
+      title: "Processing...",
+      text: "Please wait while joining the event.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     try {
       await axios.put(
         `http://localhost:5100/events/${id}`,
-        {attendees: [...event.attendees, {userId: user.userId , userName: user.username, userEmail: user.email}]},
+        {
+          attendees: [
+            ...event.attendees,
+            {
+              userId: user.userId,
+              userName: user.username,
+              userEmail: user.email,
+            },
+          ],
+        },
         { headers: { Authorization: user?.token } }
       );
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "You successfully joined!",
+      });
       setFlag(!flag);
-      alert("Successfully joined the event!");
+      console.log("Successfully joined the event!");
     } catch (error) {
-      alert("Failed to join event", error);
+      console.log("Failed to join event", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Failed to create event. Please try again.",
+      });
     }
   };
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
-      try {
-        await axios.delete(`http://localhost:5100/events/${id}`, {
-          headers: { Authorization: user?.token },
-        });
-        setFlag(!flag);
-        alert("Event deleted successfully");
-        navigate("/");
-      } catch (error) {
-        alert("Failed to delete event", error);
-      }
+    // Show a SweetAlert confirmation dialog
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+    if (!result.isConfirmed) return;
+
+    // Show a SweetAlert loading spinner
+    Swal.fire({
+      title: "Deleting...",
+      text: "Please wait while we delete the video.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    try {
+      await axios.delete(`http://localhost:5100/events/${id}`, {
+        headers: { Authorization: user?.token },
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "The video has been deleted successfully!",
+      });
+      setFlag(!flag);
+      console.log("Event deleted successfully");
+      navigate("/");
+    } catch (error) {
+      console.log("Failed to delete event", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Failed to delete the video. Please try again.",
+      });
     }
   };
 
   const handleUpdate = async () => {
+    Swal.fire({
+      title: "Saving...",
+      text: "Please wait while we save your changes.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
       await axios.put(`http://localhost:5100/events/${id}`, updatedEvent, {
         headers: { Authorization: user?.token },
       });
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Video updated successfully!",
+      });
+
       setFlag(!flag);
-      alert("Event updated successfully");
+      console.log("Event updated successfully");
       setOpen(false);
     } catch (error) {
-      alert("Failed to update event", error);
+      console.log("Failed to update event", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Failed to update the video. Please try again.",
+      });
     }
   };
-  
+
   const isAttendee = () => {
-    const attendee = event.attendees.map((attendee) => attendee.userEmail === user.email);
+    const attendee = event.attendees.map(
+      (attendee) => attendee.userEmail === user.email
+    );
     return attendee.includes(true);
-    
-  }
+  };
   if (loading)
     return <div className="text-center text-lg font-semibold">Loading...</div>;
   if (error)
@@ -138,17 +216,46 @@ const EventDetails = () => {
               <h2 className="text-xl font-semibold mt-4 text-gray-900">
                 Attendees: {event.attendees.length}
               </h2>
-              {event.createdBy.creatorEmail !== user.email ? (<>{isAttendee() ? (<><button disabled className="bg-gradient-to-r mt-4 w-1/3 from-gray-300 to-gray-600 font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl">
-                Joined
-              </button></>) : (<><button onClick={handleJoin} className="bg-gradient-to-r mt-4 w-1/3 from-yellow-400 to-orange-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl">
-                Join
-              </button></>)}</>) : (<><div className="flex gap-5"><button onClick={() => setOpen(true)}
-              className="mt-4 w-1/3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl">
-                Update
-              </button>
-              <button onClick={handleDelete} className="bg-gradient-to-r mt-4 w-1/3 from-rose-500 to-red-700 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl">
-                Delete
-              </button></div></>) }
+              {event.createdBy.creatorEmail !== user.email ? (
+                <>
+                  {isAttendee() ? (
+                    <>
+                      <button
+                        disabled
+                        className="bg-gradient-to-r mt-4 w-1/3 from-gray-300 to-gray-600 font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                      >
+                        Joined
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={handleJoin}
+                        className="bg-gradient-to-r mt-4 w-1/3 from-yellow-400 to-orange-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                      >
+                        Join
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="flex gap-5">
+                    <button
+                      onClick={() => setOpen(true)}
+                      className="mt-4 w-1/3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      className="bg-gradient-to-r mt-4 w-1/3 from-rose-500 to-red-700 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -158,12 +265,62 @@ const EventDetails = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="p-6 bg-white rounded-lg shadow-lg w-1/3">
             <h2 className="text-xl font-bold">Update Event</h2>
-            <input className="w-full p-2 border rounded mt-2" placeholder="Event Name" defaultValue={event.eventName} onChange={(e) => setUpdatedEvent({ ...updatedEvent, eventName: e.target.value })} />
-            <input className="w-full p-2 border rounded mt-2" type="date" defaultValue={event.eventDate} onChange={(e) => setUpdatedEvent({ ...updatedEvent, eventDate: e.target.value })} />
-            <input className="w-full p-2 border rounded mt-2" placeholder="Location" defaultValue={event.eventLocation} onChange={(e) => setUpdatedEvent({ ...updatedEvent, eventLocation: e.target.value })} />
-            <textarea className="w-full p-2 border rounded mt-2" placeholder="Description" defaultValue={event.eventDescription} onChange={(e) => setUpdatedEvent({ ...updatedEvent, eventDescription: e.target.value })} />
+            <input
+              className="w-full p-2 border rounded mt-2"
+              placeholder="Event Name"
+              defaultValue={event.eventName}
+              onChange={(e) =>
+                setUpdatedEvent({ ...updatedEvent, eventName: e.target.value })
+              }
+            />
+            <input
+              className="w-full p-2 border rounded mt-2"
+              type="date"
+              defaultValue={event.eventDate}
+              onChange={(e) =>
+                setUpdatedEvent({ ...updatedEvent, eventDate: e.target.value })
+              }
+            />
+            <input
+              className="w-full p-2 border rounded mt-2"
+              placeholder="Location"
+              defaultValue={event.eventLocation}
+              onChange={(e) =>
+                setUpdatedEvent({
+                  ...updatedEvent,
+                  eventLocation: e.target.value,
+                })
+              }
+            />
+            <textarea
+              className="w-full p-2 border rounded mt-2"
+              placeholder="Description"
+              defaultValue={event.eventDescription}
+              onChange={(e) =>
+                setUpdatedEvent({
+                  ...updatedEvent,
+                  eventDescription: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full p-2 border rounded mt-2"
+              placeholder="eventImage"
+              defaultValue={event.eventImage}
+              onChange={(e) =>
+                setUpdatedEvent({
+                  ...updatedEvent,
+                  eventImage: e.target.value,
+                })
+              }
+            />
             <div className="flex justify-end mt-4">
-              <button onClick={handleUpdate} className="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
+              <button
+                onClick={handleUpdate}
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>

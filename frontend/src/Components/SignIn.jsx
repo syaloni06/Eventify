@@ -4,7 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../utils/userSlice";
 
-
 const SignIn = () => {
   const [formData, setFormData] = useState({ email: "", password: "" }); // State to hold form data
   const [errors, setErrors] = useState({}); // State to hold validation errors
