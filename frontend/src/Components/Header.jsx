@@ -17,7 +17,7 @@ const Header = () => {
   const [flag, setFlag] = useState(false);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:5100");
+    const socket = new WebSocket("wss://eventify-hhsz.onrender.com");
 
     socket.onopen = () => {
       console.log("Connected to WebSocket server");

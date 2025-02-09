@@ -1,1 +1,1 @@
-export const API_URL = "http://localhost:5100";
+export const API_URL = "https://eventify-hhsz.onrender.com";
