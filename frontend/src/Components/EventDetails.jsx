@@ -177,39 +177,39 @@ const EventDetails = () => {
   return (
     <>
       <div className="flex justify-center">
-        <div className="p-8 w-5/6 mx-10 my-20 bg-white rounded-xl shadow-lg border border-gray-200">
+        <div className="p-4 md:p-8 md:w-5/6 mx-5 md:mx-10 my-20 bg-white rounded-xl shadow-lg border border-gray-200">
           <button
             onClick={() => navigate(-1)} // When clicked, navigate to the previous page
             className="flex items-center gap-2 mb-5 self-start text-base font-medium transition-colors duration-200 hover:scale-105"
           >
             <IoArrowBackCircle className="text-4xl sm:text-5xl" />
           </button>
-          <div className="flex gap-5">
-            <div className="w-1/3 self-center">
+          <div className="lg:flex w-full gap-5">
+            <div className="w-full lg:w-1/3 self-center">
               <img
                 src={event.eventImage}
                 alt={event.eventName}
-                className="w-full h-64 object-cover rounded-xl"
+                className="w-full md:h-72 lg:h-64 object-cover rounded-xl"
               />
             </div>
-            <div className="w-2/3 flex flex-col justify-start">
-              <h1 className="text-4xl font-bold mt-2 text-gray-900">
+            <div className="w-full lg:w-2/3 flex flex-col justify-start">
+              <h1 className="text-3xl md:text-4xl font-bold mt-2 text-gray-900">
                 {event.eventName}
               </h1>
-              <div className="flex gap-8">
-                <p className="text-gray-600 flex font-bold mt-2 text-xl gap-2">
-                  <FaCalendarAlt className="self-center text-blue-600 text-2xl" />
+              <div className="md:flex gap-8">
+                <p className="text-gray-600 flex font-bold mt-2 text-lg md:text-xl gap-2">
+                  <FaCalendarAlt className="self-center text-blue-600 text-xl md:text-2xl" />
                   {new Date(event.eventDate).toDateString()}
                 </p>
-                <p className="text-gray-700 flex font-bold mt-2 text-xl gap-2">
-                  <FaMapLocationDot className="text-red-600 self-center text-2xl" />{" "}
+                <p className="text-gray-700 flex font-bold mt-2 text-lg md:text-xl gap-2">
+                  <FaMapLocationDot className="text-red-600 self-center text-xl md:text-2xl" />{" "}
                   {event.eventLocation}
                 </p>
               </div>
-              <p className="mt-2 text-gray-800 font-medium italic text-lg leading-relaxed">
+              <p className="mt-2 text-gray-800 font-medium italic text-base md:text-lg leading-relaxed">
                 {event.eventDescription}
               </p>
-              <h2 className="text-sm italic font-semibold mt-2 text-gray-600">
+              <h2 className=" text-xs md:text-sm italic font-semibold mt-2 text-gray-600">
                 Created By: {event.createdBy.creatorName} (
                 {event.createdBy.creatorEmail})
               </h2>
@@ -222,7 +222,7 @@ const EventDetails = () => {
                     <>
                       <button
                         disabled
-                        className="bg-gradient-to-r mt-4 w-1/3 from-gray-300 to-gray-600 font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                        className="bg-gradient-to-r mt-4 w-full md:w-1/3 from-gray-300 to-gray-600 font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
                       >
                         Joined
                       </button>
@@ -231,7 +231,7 @@ const EventDetails = () => {
                     <>
                       <button
                         onClick={handleJoin}
-                        className="bg-gradient-to-r mt-4 w-1/3 from-yellow-400 to-orange-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                        className="bg-gradient-to-r mt-4 w-full md:w-1/3 from-yellow-400 to-orange-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
                       >
                         Join
                       </button>
@@ -240,16 +240,16 @@ const EventDetails = () => {
                 </>
               ) : (
                 <>
-                  <div className="flex gap-5">
+                  <div className="md:flex gap-5">
                     <button
                       onClick={() => setOpen(true)}
-                      className="mt-4 w-1/3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                      className="mt-4 w-full md:w-1/3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
                     >
                       Update
                     </button>
                     <button
                       onClick={handleDelete}
-                      className="bg-gradient-to-r mt-4 w-1/3 from-rose-500 to-red-700 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
+                      className="bg-gradient-to-r mt-4 w-full md:w-1/3 from-rose-500 to-red-700 text-white font-bold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-transform hover:shadow-lg text-xl"
                     >
                       Delete
                     </button>
