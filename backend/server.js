@@ -41,7 +41,6 @@ export const sendNotification = (notification) => {
   clients.forEach((client) => {
     if (client.readyState === 1) {
       client.send(JSON.stringify(notification));
-      console.log(notification);
     }
   });
 };
