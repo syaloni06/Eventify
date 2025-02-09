@@ -6,6 +6,7 @@ import { IoArrowBackCircle } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaMapLocationDot } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { API_URL } from "../utils/API_URL";
 
 const EventDetails = () => {
   const { id } = useParams(); // Get event ID from URL parameters
@@ -25,7 +26,7 @@ const EventDetails = () => {
       try {
         if (token !== null) {
           const response = await axios.get(
-            `http://localhost:5100/events/${id}`,
+            `${API_URL}/events/${id}`,
             {
               headers: { Authorization: token },
             }
@@ -55,7 +56,7 @@ const EventDetails = () => {
     });
     try {
       await axios.put(
-        `http://localhost:5100/events/${id}`,
+        `${API_URL}/events/${id}`,
         {
           attendees: [
             ...event.attendees,
@@ -108,7 +109,7 @@ const EventDetails = () => {
       },
     });
     try {
-      await axios.delete(`http://localhost:5100/events/${id}`, {
+      await axios.delete(`${API_URL}/events/${id}`, {
         headers: { Authorization: user?.token },
       });
       Swal.fire({
@@ -140,7 +141,7 @@ const EventDetails = () => {
     });
 
     try {
-      await axios.put(`http://localhost:5100/events/${id}`, updatedEvent, {
+      await axios.put(`${API_URL}/events/${id}`, updatedEvent, {
         headers: { Authorization: user?.token },
       });
       Swal.fire({

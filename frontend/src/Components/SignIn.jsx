@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../utils/userSlice";
+import { API_URL } from "../utils/API_URL";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({ email: "", password: "" }); // State to hold form data
@@ -60,7 +61,7 @@ const SignIn = () => {
     try {
       // Make a POST request to the backend with the form data (email and password)
       const response = await axios.post(
-        "http://localhost:5100/login", // Backend URL for login
+        `${API_URL}/login`, // Backend URL for login
         formData
       );
 

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import EventCard from "./EventCard";
 import axios from "axios";
 import SearchEvent from "./SearchEvent";
+import { API_URL } from "../utils/API_URL";
 
 const EventList = () => {
   const user = useSelector((state) => state.user.data);
@@ -22,7 +23,7 @@ const EventList = () => {
       try {
         if (token !== null) {
           // Fetch video data from the server if the user is authenticated
-          const response = await axios.get("http://localhost:5100/events", {
+          const response = await axios.get(`${API_URL}/events`, {
             headers: {
               Authorization: token, // Pass token in the Authorization header for security
             },

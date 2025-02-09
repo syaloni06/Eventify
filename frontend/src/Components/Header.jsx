@@ -25,10 +25,8 @@ const Header = () => {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === "event-updated") {
-        setNotifications((prev) => [...prev, data.message]);
-        setFlag(true);
-      }
+      setNotifications((prev) => [...prev, data.message]);
+      setFlag(true);
     };
 
     socket.onclose = () => {

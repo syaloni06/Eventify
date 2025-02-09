@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../utils/API_URL";
 
 const CreateEvent = () => {
   // State to hold form input values
@@ -115,7 +116,7 @@ const CreateEvent = () => {
       };
 
       // Send POST request to create a new event
-      const response = await axios.post("http://localhost:5100/events", event, {
+      const response = await axios.post(`${API_URL}/events`, event, {
         headers,
       });
 
