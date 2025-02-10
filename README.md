@@ -1,4 +1,4 @@
-# Eventify – Your Ultimate Event Management Solution
+# Eventify: Stay in Sync with Every Event!
 Eventify is a seamless and intuitive event management platform designed to simplify event creation, organization, and participation. With a user-friendly interface and robust functionality, it empowers users to plan, manage, and track events effortlessly. Whether it's a corporate conference, a social gathering, or a virtual meetup, Eventify ensures a streamlined experience from start to finish.
 ## Features
 1. **Effortless Event Creation**: Instantly create, customize, and publish events with an intuitive UI and real-time updates.
